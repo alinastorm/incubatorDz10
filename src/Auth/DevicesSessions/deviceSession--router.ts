@@ -24,3 +24,7 @@ devicesRouter.delete(`/security/devices/:deviceId`,
     JwtRefreshTokenCookies401,
     <any> devicesController.deleteOne
 )
+devicesRouter.post(`/auth/login`, (req, res, next) => {
+    console.log('2');
+    next()
+})

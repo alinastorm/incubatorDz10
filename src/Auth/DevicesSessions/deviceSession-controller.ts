@@ -1,9 +1,11 @@
-import { Request, Response } from 'express';
-import { HTTP_STATUSES, RequestWithCookies, RequestWithParams, ResponseWithBodyCode, ResponseWithCode } from '../../_common/services/http/types';
+import { NextFunction, Request, Response } from 'express';
+import { HTTP_STATUSES, RequestWithBody, RequestWithCookies, RequestWithHeaders, RequestWithParams, ResponseWithBodyCode, ResponseWithCode, ResponseWithCookies } from '../../_common/services/http/types';
 import { DeviceBdModel, DeviceViewModel } from './deviceSession-types';
 import devicesRepository from './deviceSessions-repository';
 import { RefreshTokenPayloadModel } from '../Tokenization/tokens-types';
 import format from 'date-fns/add'
+import { LoginInputModel } from '../Authentication/auth-types';
+import { APIErrorResult } from '../../_common/validators/types';
 
 
 class DeviceController {
@@ -15,7 +17,7 @@ class DeviceController {
         const userId = req.user.userId
         const deviceSessions = await devicesRepository.readAll<DeviceBdModel>({ userId })
         const result: DeviceViewModel[] = deviceSessions.map(({ deviceId, ip, title, lastActiveDate }) => {
-            return { deviceId, ip, title, lastActiveDate: new Date(+lastActiveDate*1000).toISOString() }
+            return { deviceId, ip, title, lastActiveDate: new Date(+lastActiveDate * 1000).toISOString() }
         })
         res.send(result)
     }
@@ -55,6 +57,5 @@ class DeviceController {
         //ответ
         res.sendStatus(HTTP_STATUSES.NO_CONTENT_204)
     }
-
 }
 export default new DeviceController 

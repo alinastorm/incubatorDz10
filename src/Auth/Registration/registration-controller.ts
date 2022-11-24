@@ -7,7 +7,7 @@ import { APIErrorResult } from "../../_common/validators/types"
 import authRepository from "../Authentication/auth-repository";
 import { RegistrationCodeViewModel } from "./registration-types"
 import registrationCodesRepository from './registration-repository';
-import emailService from "../../_common/services/email/gmail-adapter"
+import emailService from "../../_common/services/email/email-service"
 import { v4 as uuidv4 } from 'uuid'
 import add from 'date-fns/add'
 import { AuthViewModel } from "../Authentication/auth-types"

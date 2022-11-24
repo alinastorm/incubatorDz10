@@ -9,6 +9,7 @@ import authRepository from '../Auth/Authentication/auth-repository';
 import { HTTP_STATUSES, ResponseWithCode } from '../_common/services/http/types';
 import devicesRepository from '../Auth/DevicesSessions/deviceSessions-repository';
 import registrationCodesRepository from "../Auth/Registration/registration-repository"
+import recoveryPasswordRepository from '../Auth/RecoveryPassword/recoveryPassword-repository';
 
 class TestingController {
 
@@ -19,6 +20,7 @@ class TestingController {
         await authRepository.deleteAll()
         await devicesRepository.deleteAll()
         await registrationCodesRepository.deleteAll()
+        await recoveryPasswordRepository.deleteAll()
         res.status(HTTP_STATUSES.NO_CONTENT_204).send('All data is deleted')
     }
 

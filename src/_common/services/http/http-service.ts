@@ -14,6 +14,7 @@ import { usersRouter } from '../../../Users/users--router';
 import { registrationRouter } from '../../../Auth/Registration/registration--router';
 import { devicesRouter } from '../../../Auth/DevicesSessions/deviceSession--router';
 import { tokensRouter } from '../../../Auth/Tokenization/tokens--router';
+import { recoveryPasswordRouter } from '../../../Auth/RecoveryPassword/recoveryPassword--router';
 
 
 class HttpService {
@@ -92,7 +93,9 @@ class HttpService {
             commentsRouter,
             registrationRouter,
             devicesRouter,
-            tokensRouter
+            tokensRouter,
+            recoveryPasswordRouter,
+
         ])
     }
     stopServer() {

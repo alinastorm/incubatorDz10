@@ -10,6 +10,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { DeviceBdModel } from '../DevicesSessions/deviceSession-types';
 import deviceSessionsRepository from "../DevicesSessions/deviceSessions-repository"
 import { RefreshTokenPayloadModel } from '../Tokenization/tokens-types';
+import emailService from '../../_common/services/email/email-service';
+import { NextFunction } from 'express';
 
 class AuthController {
     /** Try login user to the system*/
@@ -22,7 +24,6 @@ class AuthController {
             ResponseWithCookies<{ refreshToken: string }> &
             ResponseWithBodyCode<APIErrorResult, 401>
     ) {
-
         const { loginOrEmail, password } = req.body
         // Проверяем существование юзера с указанным логином
         const users: UserViewModel[] | [] = await usersRepository.readAll<UserViewModel>({ $or: [{ login: loginOrEmail }, { email: loginOrEmail }] })
@@ -46,7 +47,7 @@ class AuthController {
         const deviceId: string = uuidv4()// Id of connected device session
         const refreshToken: string = jwtTokenService.generateRefreshToken({ userId, deviceId })
         const maxAgeSeconds = process.env.JWT_REFRESH_LIFE_TIME_SECONDS || console.log("No JWT_REFRESH_LIFE_TIME_SECONDS");
-        
+
         const maxAgeMiliSeconds = +maxAgeSeconds * 1000
         // Записываем device Session        
         const ip: string = req.ip // IP address of device during signing in 
