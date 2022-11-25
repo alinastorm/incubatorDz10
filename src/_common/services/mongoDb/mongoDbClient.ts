@@ -9,16 +9,13 @@ const clientMongo = new MongoClient(urlMongo)
 // Database
 const database = clientMongo.db(dbName);
 
-class MongoDbClient {
+export class MongoDbClient {
 
     constructor(
         private dbName: string,
         private clientMongo: MongoClient,
         public database: Db,
-    ) {
-         this.connect()
-         this.ping()
-     }
+    ) { }
 
     //async constructor with await only
     async then(resolve: any, reject: any) {
@@ -55,4 +52,4 @@ class MongoDbClient {
     async reConnect() { }
 }
 //@ts-ignore 
-export default  new MongoDbClient(dbName, clientMongo, database)
+export default new MongoDbClient(dbName, clientMongo, database)

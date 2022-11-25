@@ -23,14 +23,15 @@ const t = nodemailer.createTransport({
     // secure: false,
 });
 
-class EmailService {
+export class EmailService {
 
     constructor(private transporter: Transporter<SendmailTransport.SentMessageInfo>) {
+    }
+    async connect() {
         console.log("EmailService ...");
         if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) console.log("EmailService no login or pass")
-        this.verify()
+        await this.verify()        
     }
-
     async verify() {
         await new Promise((resolve, reject) => {
             // verify connection configuration

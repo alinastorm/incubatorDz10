@@ -3,7 +3,7 @@ import { titleBodyValidationMiddleware } from '../_common/validators/title-valid
 import { postIdParamValidationMiddleware } from '../_common/validators/postIdParam-validation-middleware';
 import { contentBodyValidationMiddleware } from '../_common/validators/content-validation-middleware';
 import { shortdescriptionBodyValidationMiddleware } from '../_common/validators/shortdescription-validation-middleware';
-import { BasicAuthorizationMiddleware } from '../_common/guards/BasicAuthHeaders-validation-middleware';
+import { BasicAuthorizationMiddleware401 } from '../_common/guards/BasicAuthHeaders-validation-middleware';
 import { code400 } from '../_common/validators/code400-middleware';
 import { pageNumberQueryValidationMiddleware } from '../_common/validators/pageNumber-validation-middleware';
 import { pageSizeQueryValidationMiddleware } from '../_common/validators/pageSize-validation-middleware';
@@ -15,7 +15,7 @@ import { sortByCommentsQueryValidationMiddleware } from '../_common/validators/s
 import { authHeadersJwt401 } from '../_common/guards/JwtAccessTokenHeaders-middleware';
 import postsController from './posts-controller';
 import { postParamIdInBDValidationMiddleware } from '../_common/validators/PostsIdParamInBD-validation-middleware';
-import { blogIdBodyInBDValidationMiddleware } from '../_common/validators/blogIdBodyInBD-validation-middleware';
+import { blogIdBodyInBDValidationMiddleware404 } from '../_common/validators/blogIdBodyInBD-validation-middleware';
 
 
 export const postsRouter = express.Router()
@@ -47,11 +47,11 @@ postsRouter.get(`/posts`,
     <any> postsController.readAllPaginationSort
 )
 postsRouter.post(`/posts`,
-<any>BasicAuthorizationMiddleware,
+<any>BasicAuthorizationMiddleware401,
     titleBodyValidationMiddleware,
     shortdescriptionBodyValidationMiddleware,
     contentBodyValidationMiddleware,
-    blogIdBodyInBDValidationMiddleware,
+    blogIdBodyInBDValidationMiddleware404,
     code400,
     // bloggerBodyIdInBDValidationMiddleware,
     postsController.createOne
@@ -63,19 +63,19 @@ postsRouter.get(`/posts/:postId`,
     postsController.readOne
 )
 postsRouter.put(`/posts/:postId`,
-<any>BasicAuthorizationMiddleware,
+<any>BasicAuthorizationMiddleware401,
     postIdParamValidationMiddleware,
     titleBodyValidationMiddleware,
     shortdescriptionBodyValidationMiddleware,
     contentBodyValidationMiddleware,
-    blogIdBodyInBDValidationMiddleware,
+    blogIdBodyInBDValidationMiddleware404,
     code400,
     postParamIdInBDValidationMiddleware,
     // bloggerBodyIdInBDValidationMiddleware,
     postsController.updateOne
 )
 postsRouter.delete(`/posts/:postId`,
-<any>BasicAuthorizationMiddleware,
+<any>BasicAuthorizationMiddleware401,
     postIdParamValidationMiddleware,
     code400,
     postParamIdInBDValidationMiddleware,

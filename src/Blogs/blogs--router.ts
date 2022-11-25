@@ -1,7 +1,7 @@
 import express from 'express';
 import { nameBodyValidationMiddleware } from '../_common/validators/name-validation-middleware';
 import { websiteUrlBodyValidationMiddleware } from '../_common/validators/websiteUrl-validation-middleware';
-import { BasicAuthorizationMiddleware } from '../_common/guards/BasicAuthHeaders-validation-middleware';
+import { BasicAuthorizationMiddleware401 } from '../_common/guards/BasicAuthHeaders-validation-middleware';
 import { code400 } from '../_common/validators/code400-middleware';
 import { searchNameTermQueryValidationMiddleware } from '../_common/validators/searchNameTerm-query-validation-middleware';
 import { pageNumberQueryValidationMiddleware } from '../_common/validators/pageNumber-validation-middleware';
@@ -31,7 +31,7 @@ blogsRouter.get(`/blogs`,
     blogsController.readAllOrByNamePaginationSort
 )
 blogsRouter.post(`/blogs`,
-    <any>BasicAuthorizationMiddleware,
+    <any>BasicAuthorizationMiddleware401,
     nameBodyValidationMiddleware,
     websiteUrlBodyValidationMiddleware,
     descriptionBodyValidationMiddleware,
@@ -49,7 +49,7 @@ blogsRouter.get(`/blogs/:blogId/posts`,
     <any> blogsController.readAllPostsByBlogIdWithPaginationAndSort
 )
 blogsRouter.post(`/blogs/:blogId/posts`,
-    <any> BasicAuthorizationMiddleware,
+    <any> BasicAuthorizationMiddleware401,
     blogIdParamUriValidationMiddleware,
     titleBodyValidationMiddleware,
     shortdescriptionBodyValidationMiddleware,
@@ -65,7 +65,7 @@ blogsRouter.get(`/blogs/:blogId`,
     blogsController.readOne
 )
 blogsRouter.put(`/blogs/:blogId`,
-<any>BasicAuthorizationMiddleware,
+<any>BasicAuthorizationMiddleware401,
     blogIdParamUriValidationMiddleware,
     nameBodyValidationMiddleware,
     websiteUrlBodyValidationMiddleware,
@@ -74,7 +74,7 @@ blogsRouter.put(`/blogs/:blogId`,
     blogsController.updateOne
 )
 blogsRouter.delete(`/blogs/:blogId`,
-<any>BasicAuthorizationMiddleware,
+<any>BasicAuthorizationMiddleware401,
     blogIdParamUriValidationMiddleware,
     code400,
     blogIdParamInBDValidationMiddleware,

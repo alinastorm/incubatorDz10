@@ -15,7 +15,7 @@ export class DdosGuard {
     ) {
         const ip: string = req.ip
         const url: string = req.url
-        console.log('DDOS logRequest requests before:', this.requests[ip + url]);
+        // console.log('DDOS logRequest requests before:', this.requests[ip + url]);
         //Если нет было
         if (!this.requests[ip + url]) this.requests[ip + url] = []
 

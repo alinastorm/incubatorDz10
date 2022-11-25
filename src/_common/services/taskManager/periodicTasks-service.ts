@@ -14,9 +14,7 @@ class PeriodicTasks {
         DdosGuard.deleteLogs.bind(DdosGuard)
     ]
 
-    constructor() {
-        this.run()
-    }
+ 
     async then(resolve: any, reject: any) {
         console.log('PeriodicTasks ...');
 

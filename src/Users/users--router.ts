@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { BasicAuthorizationMiddleware } from '../_common/guards/BasicAuthHeaders-validation-middleware';
+import { BasicAuthorizationMiddleware401 } from '../_common/guards/BasicAuthHeaders-validation-middleware';
 import { code400 } from '../_common/validators/code400-middleware';
 import { searchLoginTermQueryValidationMiddleware } from '../_common/validators/searchLoginTerm-query-validation-middleware';
 import { searchEmailTermQueryValidationMiddleware } from '../_common/validators/searchEmailTerm-query-validation-middleware';
@@ -29,15 +29,15 @@ usersRouter.get(`/users`,
     <any> usersController.readAllPagination
 )
 usersRouter.post(`/users`,
-<any> BasicAuthorizationMiddleware,
+<any> BasicAuthorizationMiddleware401,
     loginBodyValidationMiddleware,
     passwordBodyValidationMiddleware,
     emailBodyValidationMiddleware,
     code400,
     usersController.createOne
 )
-usersRouter.delete(`/users/:userId`,
-<any>BasicAuthorizationMiddleware,
+usersRouter.delete(`/users/:id`,
+<any>BasicAuthorizationMiddleware401,
     userIdParamUriValidationMiddleware,
     code400,
     usersController.deleteOne

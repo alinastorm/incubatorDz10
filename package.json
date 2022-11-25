@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "npm run build & node --experimental-specifier-resolution=node -r dotenv/config dist/main.js",
-    "test": "jest --runInBand",
-    "testSilent": "jest --silent --runInBand",
+    "test": "jest --runInBand --forceExit --experimental-specifier-resolution=node --setupFiles dotenv/config",
+    "testSilent": "jest --runInBand --watch --silent --forceExit --experimental-specifier-resolution=node --setupFiles dotenv/config ",
     "dev": "nodemon -e ts --exec \"npm run compile\"",
     "compile": "tsc && node --experimental-specifier-resolution=node -r dotenv/config dist/main.js",
     "build": "tsc"

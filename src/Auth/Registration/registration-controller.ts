@@ -1,4 +1,4 @@
-import { UserInputModel, UserViewModel } from "../../Users/users-types";
+import { UserBdModel, UserInputModel, UserViewModel } from "../../Users/users-types";
 import usersRepository from "../../Users/users-repository";
 import cryptoService from "../../_common/services/crypto/crypto-service";
 import { RegistrationConfirmationCodeModel, RegistrationEmailResending } from "./registration-types"
@@ -36,7 +36,7 @@ class AuthController {
         }
         //создаем юзера
         const createdAt = new Date().toISOString()
-        const queryUser: Omit<UserViewModel, 'id'> = { email, login, createdAt, confirm: false }
+        const queryUser: Omit<UserBdModel, 'id'> = { email, login, createdAt, confirm: false }
         const userId: string = await usersRepository.createOne(queryUser)
         //сохраняем хэш
         const passwordHash = await cryptoService.generatePasswordHash(password)
@@ -95,7 +95,7 @@ class AuthController {
         }
 
         const userId = codes[0].userId
-        await usersRepository.updateOne<UserViewModel>(userId, { confirm: true })
+        await usersRepository.updateOne<UserBdModel>(userId, { confirm: true })
 
         const codesUser = await registrationCodesRepository.readAll<RegistrationCodeViewModel>({ userId })
         await Promise.all(codesUser.map(async ({ id }) => {

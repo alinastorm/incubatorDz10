@@ -17,20 +17,9 @@ import { tokensRouter } from '../../../Auth/Tokenization/tokens--router';
 import { recoveryPasswordRouter } from '../../../Auth/RecoveryPassword/recoveryPassword--router';
 
 
-class HttpService {
-    constructor() {
-        console.log('HttpService ... ');
-        try {
-            this.setMiddlewares()
-            this.setRoutes()
-            this.runHttpServer()
-            this.runHttpsServer()
-        } catch (error) {
-            this.stopServer()
-            console.log('HttpService error:', error);
-        }
-    }
-    app: core.Express = express()
+export class HttpService {
+
+    appExpress: core.Express = express()
     httpServer!: http.Server
     httpsServer!: https.Server
     httpPort: number | string = process.env.PORT || process.env.HTTP_PORT || 80
@@ -52,7 +41,9 @@ class HttpService {
 
     }
     runHttpServer() {
-        const httpServer = http.createServer(this.app);
+        console.log('HttpServer ... ');
+
+        const httpServer = http.createServer(this.appExpress);
 
         this.httpServer = httpServer.listen(this.httpPort, () => {
             console.log(`HTTP Server running on port ${this.httpPort}`);
@@ -60,6 +51,8 @@ class HttpService {
 
     }
     runHttpsServer() {
+        console.log('HTTPS Server ... ');
+
         // SSL Certificate
         const privateKey = fs.readFileSync('./ssl/ubt.by-key.pem', 'utf-8')
         const certificate = fs.readFileSync('./ssl/ubt.by-crt.pem', 'utf-8')
@@ -71,7 +64,7 @@ class HttpService {
             ca: ca
         }
 
-        const httpsServer = https.createServer(credentials, this.app);
+        const httpsServer = https.createServer(credentials, this.appExpress);
 
         this.httpsServer = httpsServer.listen(this.httpsPort, () => {
             console.log(`HTTPS Server running on port ${this.httpsPort}`);
@@ -79,12 +72,12 @@ class HttpService {
 
     }
     setMiddlewares() {
-        this.app.use(express.json())
-        this.app.use(cookieParser())
-        this.app.set('trust proxy', true) // Для получения корректного ip-адреса из req.ip
+        this.appExpress.use(express.json())
+        this.appExpress.use(cookieParser())
+        this.appExpress.set('trust proxy', true) // Для получения корректного ip-адреса из req.ip
     }
     setRoutes() {
-        this.app.use([
+        this.appExpress.use([
             testingRouter,
             blogsRouter,
             postsRouter,

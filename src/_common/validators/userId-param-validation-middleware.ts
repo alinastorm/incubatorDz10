@@ -1,7 +1,7 @@
 import { body, param } from 'express-validator';
 
 
-export const userIdParamUriValidationMiddleware = param('userId')
+export const userIdParamUriValidationMiddleware = param('id')
     .exists()
     .notEmpty({ ignore_whitespace: true })
     .isString()

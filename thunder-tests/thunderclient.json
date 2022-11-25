@@ -301,5 +301,19 @@
     "headers": [],
     "params": [],
     "tests": []
+  },
+  {
+    "_id": "5ff9144e-5d7a-4f4f-8852-e0212fe51958",
+    "colId": "0f79e305-ef2c-4821-a078-37ee4bc6c625",
+    "containerId": "",
+    "name": "Get posts",
+    "url": "https://ubt.by:9002/posts",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2022-11-25T21:16:03.725Z",
+    "modified": "2022-11-25T21:16:19.195Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

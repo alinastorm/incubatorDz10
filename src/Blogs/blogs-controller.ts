@@ -3,8 +3,8 @@ import { Filter } from 'mongodb';
 
 import postsRepository from '../Posts/posts-repository';
 import blogsRepository from './blogs-repository';
-import { BlogInputModel, BlogPostInputModel, BlogViewModel } from './types';
-import { PostViewModel } from '../Posts/types';
+import { BlogInputModel, BlogViewModel } from './types';
+import { PostInputModel, PostViewModel } from '../Posts/types';
 import { HTTP_STATUSES, RequestWithBody, RequestWithParams, RequestWithParamsBody, RequestWithParamsQuery, RequestWithQuery, ResponseWithBodyCode, ResponseWithCode } from '../_common/services/http/types';
 import { Paginator, SearchPaginationModel } from '../_common/abstractions/Repository/types';
 
@@ -65,7 +65,7 @@ class BlogController {
         res.status(HTTP_STATUSES.OK_200).send(result)
     }
     async createPostsByBlogId(
-        req: RequestWithParamsBody<{ blogId: string }, BlogPostInputModel>,
+        req: RequestWithParamsBody<{ blogId: string }, PostInputModel>,
         res: ResponseWithBodyCode<PostViewModel, 201 | 404>
     ) {
         const blogId = req.params.blogId

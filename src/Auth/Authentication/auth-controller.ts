@@ -1,4 +1,4 @@
-import { UserViewModel } from '../../Users/users-types';
+import { UserBdModel, UserViewModel } from '../../Users/users-types';
 import usersRepository from '../../Users/users-repository';
 import { APIErrorResult } from '../../_common/validators/types';
 import cryptoService from '../../_common/services/crypto/crypto-service';
@@ -26,7 +26,7 @@ class AuthController {
     ) {
         const { loginOrEmail, password } = req.body
         // Проверяем существование юзера с указанным логином
-        const users: UserViewModel[] | [] = await usersRepository.readAll<UserViewModel>({ $or: [{ login: loginOrEmail }, { email: loginOrEmail }] })
+        const users: UserBdModel[] | [] = await usersRepository.readAll<UserBdModel>({ $or: [{ login: loginOrEmail }, { email: loginOrEmail }] })
         const user = users[0]
         if (!user) return res.status(HTTP_STATUSES.UNAUTHORIZED_401).send("No login")
         // Проверяем подтверждение почты пользователя
@@ -36,11 +36,11 @@ class AuthController {
         const userId = user.id
         const auths = await authRepository.readAll<AuthViewModel>({ userId })
         const auth = auths[0]
-        if (!auth) return res.sendStatus(HTTP_STATUSES.UNAUTHORIZED_401)
+        if (!auth) return res.sendStatus(HTTP_STATUSES.UNAUTHORIZED_401).send("No auth")
         // Проверка равенства пароля и hasha в bd
         const passwordHash = auth.passwordHash
         const isEqual = await cryptoService.checkPasswordByHash(passwordHash, password)
-        if (!isEqual) return res.sendStatus(HTTP_STATUSES.UNAUTHORIZED_401)
+        if (!isEqual) return res.sendStatus(HTTP_STATUSES.UNAUTHORIZED_401).send("Pass wrong")
         // TODO Проверка существования в сессиях присланного deviceId или отправка запроса нового устройства если не прислано.Пусть присылают в body deviceId из localStorage длительного хранения. Сброс на нижний уровень где есть доверие к мылу. При подтвеждении мыла можно сеитить deviceId и отправлять на мыло сообщение (что бы два раза в первый раз не дурить голову)
         // Генерация токенов Access Refresh
         const accessToken: LoginSuccessViewModel = jwtTokenService.generateAccessToken({ userId })

@@ -2,7 +2,7 @@ import { NextFunction} from 'express';
 import { HTTP_STATUSES, RequestWithHeaders, ResponseWithCode } from '../services/http/types';
 
 
-export const BasicAuthorizationMiddleware = (
+export const BasicAuthorizationMiddleware401 = (
     req: RequestWithHeaders<{ authorization: string }>,
     res: ResponseWithCode<401>,
     next: NextFunction) => {

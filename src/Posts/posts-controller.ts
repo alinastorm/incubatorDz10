@@ -47,11 +47,15 @@ class PostsController {
         if (!post) return res.status(HTTP_STATUSES.BAD_REQUEST_400)
         res.status(HTTP_STATUSES.CREATED_201).send(post)
     }
-    async readOne(req: RequestWithParams<{ postId: string }>, res: ResponseWithBodyCode<PostViewModel, 200 | 404>) {
+    async readOne(
+        req: RequestWithParams<{ postId: string }>,
+        res: ResponseWithBodyCode<PostViewModel, 200 | 404> &
+            ResponseWithCode<404>
+    ) {
         const id = req.params.postId
         const post = await postsRepository.readOne<PostViewModel>(id)
         if (!post) {
-            return res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
+            return res.status(HTTP_STATUSES.NOT_FOUND_404).send("post ")
         }
         res.status(HTTP_STATUSES.OK_200).send(post)
     }
